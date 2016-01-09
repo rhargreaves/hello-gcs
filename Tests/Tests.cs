@@ -20,5 +20,15 @@ namespace Tests
             var result = writer.WriteStream(stream, "bar", "robert-hargreaves-test2");
             Assert.That(result, Is.True);
         }
+
+        [Test]
+        public void Get_object()
+        {
+            var stream = new MemoryStream();
+            var writer = new GcsWriter();
+            writer.ReadObject(stream, "bar", "robert-hargreaves-test2");
+            var str = Encoding.UTF8.GetString(stream.ToArray());
+            Assert.That(str, Is.EqualTo("foo"));
+        }
     }
 }
