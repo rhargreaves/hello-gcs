@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using HelloGcs;
+using NUnit.Framework.Constraints;
 
 namespace Tests
 {
@@ -29,6 +30,14 @@ namespace Tests
             writer.ReadObject(stream, "bar", "robert-hargreaves-test2");
             var str = Encoding.UTF8.GetString(stream.ToArray());
             Assert.That(str, Is.EqualTo("foo"));
+        }
+
+        [Test]
+        public void Get_signed_url()
+        {
+            var signer = new GcsSigner("test-bucket-account@fluid-advantage-118120.iam.gserviceaccount.com");
+            var url = signer.GetObjectUrl("bar", "robert-hargreaves-test2", TimeSpan.FromMinutes(30));
+            Assert.That(url, Is.Not.Null);
         }
     }
 }

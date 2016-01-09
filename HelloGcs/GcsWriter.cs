@@ -1,17 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Net.Http.Headers;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
 using Crc32C;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Discovery;
 using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Storage.v1;
 using Google.Apis.Upload;
-using Object = Google.Apis.Storage.v1.Data.Object;
 
 namespace HelloGcs
 {
