@@ -6,10 +6,11 @@ using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Storage.v1;
 using Google.Apis.Upload;
+using Object = Google.Apis.Storage.v1.Data.Object;
 
 namespace HelloGcs
 {
-    public class GcsWriter
+    public class GcsObjectReaderWriter
     {
         private IConfigurableHttpClientInitializer GetApplicationDefaultCredentials()
         {
@@ -22,37 +23,37 @@ namespace HelloGcs
             return credential;
         }
 
-        public void ReadObject(Stream destination, string name, string bucketName)
+        public void ReadObject(Stream destination, string key, string bucketName)
         {
             var service = CreateStorageService();
-            var get = service.Objects.Get(bucketName, name);
+            var get = service.Objects.Get(bucketName, key);
             get.Download(destination);
         }
 
-        public bool WriteStream(Stream stream, string name, string bucketName)
+        public void WriteObject(Stream stream, string key, string bucketName)
         {
             var hash = CalculateCrc32c(stream);
             var service = CreateStorageService();
 
-            var fileobj = new Google.Apis.Storage.v1.Data.Object()
-                {
-                    Name = name, Crc32c = hash 
+            var fileobj = new Object
+            {
+                Name = key,
+                Crc32c = hash
             };
 
             var insert = service.Objects.Insert(fileobj, bucketName, stream, "text/plain");
             var upload = insert.Upload();
             if (upload.Status == UploadStatus.Failed)
                 throw upload.Exception;
-            return true;
         }
 
         private StorageService CreateStorageService()
         {
-            StorageService service = new StorageService(
-                new BaseClientService.Initializer()
+            var service = new StorageService(
+                new BaseClientService.Initializer
                 {
                     HttpClientInitializer = GetApplicationDefaultCredentials(),
-                    ApplicationName = "GCS Test",
+                    ApplicationName = "GCS Test"
                 });
             return service;
         }

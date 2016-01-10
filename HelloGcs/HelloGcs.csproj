@@ -109,8 +109,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GcsSigner.cs" />
-    <Compile Include="GcsWriter.cs" />
+    <Compile Include="GcsSignedUrlGenerator.cs" />
+    <Compile Include="GcsObjectReaderWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
