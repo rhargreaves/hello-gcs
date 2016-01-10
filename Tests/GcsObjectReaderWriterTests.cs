@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using NUnit.Framework;
 
@@ -12,11 +13,21 @@ namespace HelloGcs.Tests
         private const string KEY = "bar";
 
         [Test]
-        public void Write_and_read_object()
+        public void Write_object()
         {
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(DATA));
             var readerWriter = new GcsObjectReaderWriter();
             readerWriter.WriteObject(stream, KEY, BUCKET_NAME);
+        }
+
+        [Test]
+        public void Write_object_throws_exception_on_failure()
+        {
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(DATA));
+            var readerWriter = new GcsObjectReaderWriter();
+            Assert.Throws<ArgumentNullException>(() => { // Exceptions from GCS lack clarity it seems...
+                 readerWriter.WriteObject(stream, KEY, "no-such-bucket");
+            });
         }
 
         [Test]
