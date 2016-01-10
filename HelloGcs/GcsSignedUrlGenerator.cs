@@ -1,8 +1,8 @@
 using System;
+using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web;
 
 namespace HelloGcs
 {
@@ -43,7 +43,7 @@ namespace HelloGcs
                 name,
                 _serviceAccountEmail,
                 expiration,
-                HttpUtility.UrlEncode(urlSignature)
+                WebUtility.UrlEncode(urlSignature)
                 );
             return signedUrl;
         }
