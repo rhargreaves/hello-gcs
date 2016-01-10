@@ -1,4 +1,4 @@
-# hello-gcs
+# Hello GCS
 Various experiments around Google Cloud Storage:
 
 * Reading objects
